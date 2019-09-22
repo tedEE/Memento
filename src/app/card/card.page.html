@@ -1,0 +1,20 @@
+<ion-header>
+  <ion-toolbar color="primary">
+      <div class="header">
+          <ion-title>card</ion-title>
+          <ion-icon name="arrow-forward" (click)="transitionHome()"></ion-icon>
+      </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-card>
+        <ion-card-header>
+            <ion-card-title>{{task?.location}}</ion-card-title>
+        </ion-card-header>
+
+        <ion-card-content >
+            {{task?.hint}}
+        </ion-card-content>
+    </ion-card>
+</ion-content>

@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "291443111917",
+    "firebase_url": "https://member-c5658.firebaseio.com",
+    "project_id": "member-c5658",
+    "storage_bucket": "member-c5658.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:291443111917:android:2dbbf9c50eb458f4",
+        "android_client_info": {
+          "package_name": "com.gmail.jein.mentalist"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "291443111917-dvdg3l8mabtnus7n5udf21jcvoip6lfd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCMHWEqEEQsxGaeWBBKQ-B0QikoDaUpqcg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "291443111917-dvdg3l8mabtnus7n5udf21jcvoip6lfd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

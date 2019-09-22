@@ -1,0 +1,7 @@
+{
+  "name": "Memento",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular"
+}
