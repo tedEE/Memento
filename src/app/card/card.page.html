@@ -8,13 +8,16 @@
 </ion-header>
 
 <ion-content>
-    <ion-card>
+<!--    <ion-card *ngFor="let notification of notificationList">-->
+    <ion-card *ngFor="let c of count">
         <ion-card-header>
-            <ion-card-title>{{task?.location}}</ion-card-title>
+<!--            <ion-card-title>{{task?.location}}</ion-card-title>-->
+<!--            <ion-card-title>{{notification.title}}</ion-card-title>-->
         </ion-card-header>
 
         <ion-card-content >
-            {{task?.hint}}
+            {{c + 'aaaa'}}
+<!--            {{task?.hint}}-->
         </ion-card-content>
     </ion-card>
 </ion-content>

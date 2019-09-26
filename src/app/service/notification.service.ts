@@ -6,20 +6,21 @@ import {Task} from './tasks.service';
   providedIn: 'root'
 })
 export class NotificationService {
+  public notificationList = []
 
   constructor() { }
 
   createNotification(task : Task){
     // @ts-ignore
     cordova.plugins.notification.local.schedule([
-      // this.createNotificationSeting(task,1, 1, 'minute'),
-      // this.createNotificationSeting(task,2, 2, 'minute'),
-      this.createNotificationSeting(task,1, 30, 'minute'),
-      this.createNotificationSeting(task,2, 1, 'hour'),
-      this.createNotificationSeting(task,3, 3, 'hour'),
-      this.createNotificationSeting(task,4, 8, 'hour'),
-      this.createNotificationSeting(task,5, 24, 'hour'),
-      this.createNotificationSeting(task,6, 3, 'day'),
+      this.createNotificationSeting(task,1, 1, 'minute'),
+      this.createNotificationSeting(task,2, 2, 'minute'),
+      // this.createNotificationSeting(task,1, 30, 'minute'),
+      // this.createNotificationSeting(task,2, 1, 'hour'),
+      // this.createNotificationSeting(task,3, 3, 'hour'),
+      // this.createNotificationSeting(task,4, 8, 'hour'),
+      // this.createNotificationSeting(task,5, 24, 'hour'),
+      // this.createNotificationSeting(task,6, 3, 'day'),
     ]);
   }
 
@@ -31,6 +32,16 @@ export class NotificationService {
       foreground: true,
       trigger: {in: trigerNumber, unit: trigerString }
     }
+  }
+
+  trigerEvent(){
+    let notif = []
+    // @ts-ignore
+    cordova.plugins.notification.local.on("trigger", function (notification, state) {
+      notif.push(notification)
+      this.notificationList = notif
+      console.log(this.notificationList);
+    })
   }
 
   clearNotification(task : Task){

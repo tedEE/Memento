@@ -5,6 +5,8 @@ import {TasksService, Task} from '../service/tasks.service';
 import {Storage} from '@ionic/storage';
 import {FCM} from '@ionic-native/fcm/ngx';
 import {HttpClient} from '@angular/common/http';
+import {trigger} from '@angular/animations';
+import {NotificationService} from '../service/notification.service';
 
 
 @Component({
@@ -19,6 +21,7 @@ export class HomePage implements OnInit {
 
   constructor(private router: Router, private nativePageTransitions: NativePageTransitions,
               private tasksService: TasksService,
+              private notificationService: NotificationService,
               private storage: Storage,
               private fcm: FCM,
               private httpClient: HttpClient) {
@@ -73,17 +76,12 @@ export class HomePage implements OnInit {
     document.addEventListener('backbutton', () => {
       navigator['app'].exitApp();
     }, false);
-    // this.loadTask();
+    this.notificationService.trigerEvent()
     ////////////////////получение токена устройства
     this.fcm.getToken().then(token => {
       console.log('token', token);
     });
   }
-
-  // ngDoCheck(){
-  //   console.log('ngDoCheck()')
-  //   this.tasks = this.tasksService.tasks
-  // }
 
   close() {
     navigator['app'].exitApp();

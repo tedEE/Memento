@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Storage} from '@ionic/storage';
+import {BehaviorSubject, Subject, Subscription, ReplaySubject} from 'rxjs';
 
 export interface Task {
   id: number,
@@ -15,17 +16,29 @@ const TASK_KEY = 'my_task';
   providedIn: 'root'
 })
 export class TasksService {
+
+  // public  arr$ : any
+  public tasks: Task[] = [];
+  public task: Task[];
+  public striamTask$ : ReplaySubject<number> = new ReplaySubject<number>()
+  sub : Subscription
+  counter = 0
+
   constructor(private storage: Storage) {
+    this.sub = this.striamTask$.subscribe((val)=>{
+      console.log(val)
+    })
     this.getItem().then((items) => {
         this.tasks = items;
       }
     );
   }
 
-  // @ts-ignore
-  public  arr$ : any
-  public tasks: Task[] = [];
-  public task: Task[];
+  //test subject
+  next(){
+    this.counter ++
+    this.striamTask$.next(this.counter)
+  }
 
   //Create
   addItem(item: Task): Promise<any> {
@@ -36,7 +49,7 @@ export class TasksService {
       } else {
         return this.storage.set(TASK_KEY, [item]);
       }
-    });
+    })
   }
 
 // Read

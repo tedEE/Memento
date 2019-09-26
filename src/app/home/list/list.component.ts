@@ -59,6 +59,4 @@ export class ListComponent implements OnInit {
   load(){
 
   }
-
-
 }
