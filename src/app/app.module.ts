@@ -17,6 +17,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 import {FCM} from '@ionic-native/fcm/ngx';
 import {HTTP} from '@ionic-native/http/ngx';
+import {FormsModule} from '@angular/forms';
 
 
 @NgModule({
@@ -27,7 +28,8 @@ import {HTTP} from '@ionic-native/http/ngx';
       AppRoutingModule,
       HttpClientModule,
       IonicStorageModule.forRoot(),
-      BrowserAnimationsModule],
+      BrowserAnimationsModule,
+      FormsModule],
     providers: [
         StatusBar,
         SplashScreen,

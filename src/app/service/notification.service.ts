@@ -8,20 +8,38 @@ import {Task} from './tasks.service';
 export class NotificationService {
   public notificationList = []
 
+  testCheck = false
+
   constructor() { }
 
-  createNotification(task : Task){
+  // Создание постоянных уведомлений
+  addNotification(task : Task){
+    // @ts-ignore
+    cordova.plugins.notification.local.schedule([
+      this.createNotificationSeting(task,1, 30, 'minute'),
+      this.createNotificationSeting(task,2, 1, 'hour'),
+      this.createNotificationSeting(task,3, 3, 'hour'),
+      this.createNotificationSeting(task,4, 8, 'hour'),
+      this.createNotificationSeting(task,5, 24, 'hour'),
+      this.createNotificationSeting(task,6, 3, 'day'),
+    ]);
+  }
+  // создание времменных уведомлений для тестирования
+  testcreateNotification(task : Task){
     // @ts-ignore
     cordova.plugins.notification.local.schedule([
       this.createNotificationSeting(task,1, 1, 'minute'),
       this.createNotificationSeting(task,2, 2, 'minute'),
-      // this.createNotificationSeting(task,1, 30, 'minute'),
-      // this.createNotificationSeting(task,2, 1, 'hour'),
-      // this.createNotificationSeting(task,3, 3, 'hour'),
-      // this.createNotificationSeting(task,4, 8, 'hour'),
-      // this.createNotificationSeting(task,5, 24, 'hour'),
-      // this.createNotificationSeting(task,6, 3, 'day'),
     ]);
+  }
+
+  createNotification(task : Task){
+    console.log(this.testCheck)
+    if (this.testCheck) {
+      this.testcreateNotification(task)
+    }else {
+      this.addNotification(task)
+    }
   }
 
   createNotificationSeting(task : Task, id : number, trigerNumber : number, trigerString : string) {

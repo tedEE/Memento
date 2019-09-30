@@ -16,7 +16,7 @@ export class CardPage implements OnInit {
   public task: Task;
   private notificationList
   ////////////test subscribe
-  count : number[]
+  count : Task[]
   private sub : BehaviorSubject<number>
   constructor(private nativePageTransitions: NativePageTransitions,
               private router: Router,
@@ -25,10 +25,9 @@ export class CardPage implements OnInit {
     this.count = []
     /////////////////
      this.taskServise.striamTask$.subscribe((val)=>{
-      // console.log('val', typeof val)
+      console.log('val', val)
        this.count.push(val)
     })
-    console.log(this.count)
     /////////////////
     if (this.taskServise.task[0] === undefined) {
       this.taskServise.getTaskList();

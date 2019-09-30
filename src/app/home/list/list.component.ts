@@ -17,14 +17,14 @@ export class ListComponent implements OnInit {
 
   @Input() tasks;
 
-  // public tasks : Task[];
+  // public t : Task[];
   private task : Task ;
-
   constructor(private router: Router,
               private nativePageTransitions: NativePageTransitions,
               private tasksService : TasksService,
               private notificationServise : NotificationService) {
     console.log('list const')
+    // this.t = this.tasksService.tasks
   }
 
   ngOnInit() {
@@ -33,7 +33,8 @@ export class ListComponent implements OnInit {
 
   delete(task : Task){
     this.notificationServise.clearNotification(task)
-    this.tasksService.deleteItem(task.id).then(task =>{
+    this.tasksService.deleteItem(task.id).then(t =>{
+      console.log('del', t)
       this.loadTask()
     })
   }

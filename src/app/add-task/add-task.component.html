@@ -23,6 +23,9 @@
 
         <ion-button color="tertiary" (click)="addTask(lok, hint)">Add</ion-button>
         <ion-button color="tertiary" (click)="next()">test</ion-button>
-
     </div>
+    <ion-item class="test-block" >
+        <ion-label>Тестовый режим уведомлений</ion-label>
+        <ion-checkbox color="primary" [(ngModel)]="isChecked" (ionChange)="testCheck()"></ion-checkbox>
+    </ion-item>
 </ion-content>

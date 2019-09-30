@@ -20,25 +20,30 @@ export class TasksService {
   // public  arr$ : any
   public tasks: Task[] = [];
   public task: Task[];
-  public striamTask$ : ReplaySubject<number> = new ReplaySubject<number>()
+  public striamTask$ : ReplaySubject<Task> = new ReplaySubject<Task>()
   sub : Subscription
   counter = 0
 
   constructor(private storage: Storage) {
-    this.sub = this.striamTask$.subscribe((val)=>{
-      console.log(val)
-    })
-    this.getItem().then((items) => {
-        this.tasks = items;
-      }
-    );
+    // this.sub = this.striamTask$.subscribe((val)=>{
+    //   this.tasks.push(val)
+    //   console.log(this.tasks)
+    // })
+
+    // this.getTaskList()
+    // this.getItem().then((items) => {
+    //     this.tasks = items;
+    //   }
+    // );
   }
 
   //test subject
-  next(){
-    this.counter ++
-    this.striamTask$.next(this.counter)
-  }
+  // next(tasks){
+  //   tasks.map((value)=>{
+  //     this.striamTask$.next(value)
+  //     console.log(value, 'next')
+  //   })
+  // }
 
   //Create
   addItem(item: Task): Promise<any> {
@@ -109,6 +114,4 @@ export class TasksService {
       }
     );
   }
-
-
 }

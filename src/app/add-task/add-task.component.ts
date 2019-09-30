@@ -22,14 +22,11 @@ export class AddTaskComponent implements OnInit {
   private id: number;
 
 
-
   constructor(private router: Router,
               private nativePageTransitions: NativePageTransitions,
               private tasksService: TasksService,
               private notificationServise : NotificationService,
-              private http: HTTP) {
-
-  }
+              private http: HTTP) {}
 
   ngOnInit() {
     document.addEventListener('backbutton', () => {
@@ -38,7 +35,7 @@ export class AddTaskComponent implements OnInit {
   }
 
   next(){
-    this.tasksService.next()
+    // this.tasksService.next()
   }
 
   transitionHome() {
@@ -74,9 +71,11 @@ export class AddTaskComponent implements OnInit {
       };
 
       this.tasksService.addItem(this.task).then((tasks) => {
-        this.tasksService.tasks = tasks;
+        this.tasksService.striamTask$.next(this.task)
+        // this.tasksService.tasks = tasks;
         console.log('add task', tasks);
         console.log('this.tasksService.tasks', this.tasksService.tasks);
+        // this.tasksService.next()
       });
       lok.value = '';
       hint.value = '';
@@ -90,6 +89,9 @@ export class AddTaskComponent implements OnInit {
       .catch(error => console.log(error));
   }
 
+  testCheck(){
+    this.notificationServise.testCheck = !this.notificationServise.testCheck
+  }
   // loadTask() {
   //   this.tasksService.getItem().then((tasks) => {
   //       this.tasksService.tasks = tasks;

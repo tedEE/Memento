@@ -25,12 +25,17 @@ export class HomePage implements OnInit {
               private storage: Storage,
               private fcm: FCM,
               private httpClient: HttpClient) {
-
+    this.tasksService.striamTask$.subscribe((val)=>{
+      console.log(val)
+    })
     storage.get(this.taskKey).then((tasks) => {
       this.tasks = tasks;
       tasksService.tasks = this.tasks;
       console.log('конструктор home')
       this.routeEvent(this.router);
+      // tasks.map((v)=>{
+      //   this.tasksService.striamTask$.next(v)
+      // })
     });
     // firebase
     this.fcm.onNotification().subscribe(data => {
@@ -47,7 +52,7 @@ export class HomePage implements OnInit {
     router.events.subscribe(e => {
       if (e instanceof NavigationEnd) {
         console.log('функция routeEvent', e);
-        this.storage.get('my_task').then((tasks) => {
+        this.storage.get(this.tasksService.getTaskKey()).then((tasks) => {
           this.tasks = tasks;
         });
       }
