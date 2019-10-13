@@ -1,11 +1,8 @@
-<!--<ion-button color="warning" (click)="load()" >Update</ion-button>-->
-<!--<div>{{tasksService.test$ | async}}</div>-->
-<ion-list *ngFor="let task of tasks, let i = index ">
+<ion-list *ngFor="let task of tasksList, let i = index ">
     <ion-item >
         <ion-label (click)="showCard(task.id)">{{task.location}} | {{task.date | date:"MMM-d:hh:mm"}}</ion-label>
 
         <ion-button color="warning" (click)="delete(task)" >Delete</ion-button>
     </ion-item>
-<!--    <div class="task">{{task.location}}</div>-->
 </ion-list>
 

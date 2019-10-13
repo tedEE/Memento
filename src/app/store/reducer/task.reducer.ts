@@ -1,4 +1,3 @@
-import {Action} from '@ngrx/store';
 import {AddTask, LoadTasks, TASK_ACTION, TaskAction} from '../action/task.action';
 
 
@@ -12,15 +11,21 @@ const initialState = {
     ]
 };
 
+// надо решить проблему с типизацией action : TaskAction
 export function taskReduser(state = initialState, action: any) {
   switch (action.type) {
     case  TASK_ACTION.ADD_TASK :
       return {
         ...state,
-        task: [...state.tasks,
+        tasks: [...state.tasks,
           action.payload
         ]
       };
+    case TASK_ACTION.DELETE_TASK :
+      return {
+        ...state,
+        tasks : [...state.tasks.filter(t => t.id !== action.payload.id)]
+      }
       case  TASK_ACTION.LOAD_TASKS :
         return {
         ...state,

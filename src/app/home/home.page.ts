@@ -28,15 +28,13 @@ export class HomePage implements OnInit {
     // this.tasksService.striamTask$.subscribe((val)=>{
     //   console.log(val)
     // })
-    storage.get(this.taskKey).then((tasks) => {
-      this.tasks = tasks;
-      tasksService.tasks = this.tasks;
-      console.log('конструктор home')
-      this.routeEvent(this.router);
-      // tasks.map((v)=>{
-      //   this.tasksService.striamTask$.next(v)
-      // })
-    });
+    this.tasksService.loadTask()
+    // storage.get(this.taskKey).then((tasks) => {
+    //   this.tasks = tasks;
+    //   tasksService.tasks = this.tasks;
+    //   console.log('конструктор home')
+    //   this.routeEvent(this.router);
+    // });
     // firebase
     this.fcm.onNotification().subscribe(data => {
       if (data.wasTapped) {
@@ -48,25 +46,16 @@ export class HomePage implements OnInit {
     });
   }
 
-  routeEvent(router: Router) {
-    router.events.subscribe(e => {
-      if (e instanceof NavigationEnd) {
-        console.log('функция routeEvent', e);
-        this.storage.get(this.tasksService.getTaskKey()).then((tasks) => {
-          this.tasks = tasks;
-        });
-      }
-    });
-  }
-
-  loadTask() {
-    this.tasksService.getTask().then((tasks) => {
-        this.tasks = tasks;
-        console.log('функция loadTask home page', 'load');
-      }
-    );
-  }
-
+  // routeEvent(router: Router) {
+  //   router.events.subscribe(e => {
+  //     if (e instanceof NavigationEnd) {
+  //       console.log('функция routeEvent', e);
+  //       this.storage.get(this.tasksService.getTaskKey()).then((tasks) => {
+  //         this.tasks = tasks;
+  //       });
+  //     }
+  //   });
+  // }
 
   transition() {
     const options: NativeTransitionOptions = {
@@ -79,7 +68,6 @@ export class HomePage implements OnInit {
   }
 
   ngOnInit() {
-    this.tasksService.loadTask()
     document.addEventListener('backbutton', () => {
       navigator['app'].exitApp();
     }, false);

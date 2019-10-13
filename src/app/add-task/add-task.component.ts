@@ -29,16 +29,12 @@ export class AddTaskComponent implements OnInit {
               private tasksService: TasksService,
               private notificationServise : NotificationService,
               private http: HTTP,
-              private store : Store<any>) {
-    this.tasksService.getTask().then((v)=>{
-      console.log(v)
-    })
-  }
+              private store : Store<any>) {}
 
   ngOnInit() {
     document.addEventListener('backbutton', () => {
       this.transitionHome();
-    }, false);
+    }, true);
   }
 
   next(){
@@ -55,8 +51,8 @@ export class AddTaskComponent implements OnInit {
     this.router.navigateByUrl('/home');
   }
 
-  addTimeNatification() {
-    this.notificationServise.createNotification(this.task)
+  addTimeNatification(task : Task) {
+    this.notificationServise.createNotification(task)
   }
 
   createTask(lok, hint) {
@@ -92,20 +88,11 @@ export class AddTaskComponent implements OnInit {
   testCheck(){
     this.notificationServise.testCheck = !this.notificationServise.testCheck
   }
-  // loadTask() {
-  //   this.tasksService.getItem().then((tasks) => {
-  //       this.tasksService.tasks = tasks;
-  //     }
-  //   );
-  // }
 
   addTask(lok, hint) {
-    // console.log('конструктор', this.inputLok)
     // this.inputLok.nativeElement.focus()
-
     this.createTask(lok, hint);
-    // надо передавать task здесь this.addTimeNatification(this.task);
-    this.addTimeNatification();
+    this.addTimeNatification(this.task);
   }
 
 

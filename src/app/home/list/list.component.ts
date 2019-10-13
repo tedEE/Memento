@@ -1,10 +1,11 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {NativeTransitionOptions, NativePageTransitions,} from '@ionic-native/native-page-transitions/ngx';
 import {Router} from '@angular/router';
 
-import {TasksService, Task} from '../../service/tasks.service';
+import {TasksService, Task, AppState} from '../../service/tasks.service';
 import {NotificationService} from '../../service/notification.service';
-import {filter, last, scan, skip, take} from 'rxjs/operators';
+import {Store} from '@ngrx/store';
+import {DeleteTask} from '../../store/action/task.action';
 
 
 @Component({
@@ -16,25 +17,26 @@ import {filter, last, scan, skip, take} from 'rxjs/operators';
 
 export class ListComponent implements OnInit {
 
-  @Input() tasks;
+  // @Input() tasks;
 
-  tasksList : Task[] = []
-  public t ;
-  private task : Task ;
+  tasksList : Task[]
   constructor(private router: Router,
               private nativePageTransitions: NativePageTransitions,
               private tasksService : TasksService,
-              private notificationServise : NotificationService) {
-    // this.tasksService.gettingAllTasksFromDB()
+              private store : Store<AppState>,
+              private notificationServise : NotificationService) {}
+
+  ngOnInit() {
+    this.store.select('taskReduser').subscribe(({tasks}) => {
+      this.tasksList = tasks
+    })
   }
 
-  ngOnInit() {}
-
   delete(task : Task){
+    this.store.dispatch(new DeleteTask(task))
     this.notificationServise.clearNotification(task)
     this.tasksService.deleteItem(task.id).then(t =>{
       console.log('del', t)
-      this.loadTask()
     })
   }
 
@@ -46,16 +48,4 @@ export class ListComponent implements OnInit {
     this.nativePageTransitions.slide(options);
     this.router.navigateByUrl('/card');
   }
-
-  loadTask(){
-    this.tasksService.getTask().then((tasks)=> {
-        this.tasks = tasks
-      }
-    )
-  }
-
-  // load() {
-  //   this.tasksService.test$.next(1)
-  // }
-
 }

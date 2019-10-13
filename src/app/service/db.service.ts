@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import {Storage} from '@ionic/storage';
-import {Task} from './tasks.service';
 
-const TASK_KEY = ''
+// const TASK_KEY = ''
+
 @Injectable({
   providedIn: 'root'
 })
@@ -17,7 +17,7 @@ export class DbService {
         items.push(item);
         return this.storage.set(dbKey, items);
       } else {
-        return this.storage.set(TASK_KEY, [item]);
+        return this.storage.set(dbKey, [item]);
       }
     })
   }
