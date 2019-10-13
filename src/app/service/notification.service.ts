@@ -1,16 +1,20 @@
-import { Injectable } from '@angular/core';
+import {Injectable, OnInit} from '@angular/core';
 import {HTTP} from '@ionic-native/http/ngx';
 import {Task} from './tasks.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class NotificationService {
-  public notificationList = []
+export class NotificationService implements OnInit{
+  public notificationList : any[]
 
   testCheck = false
 
-  constructor() { }
+  constructor() {}
+
+  ngOnInit(){
+    this.notificationList = []
+  }
 
   // Создание постоянных уведомлений
   addNotification(task : Task){
@@ -55,10 +59,10 @@ export class NotificationService {
   trigerEvent(){
     let notif = []
     // @ts-ignore
-    cordova.plugins.notification.local.on("trigger", function (notification, state) {
-      notif.push(notification)
-      this.notificationList = notif
-      console.log(this.notificationList);
+    cordova.plugins.notification.local.on("trigger",  (notification, state) => {
+      // this.notificationList.push(notification)
+      // console.log(notification);
+      // console.log('state в уведомлении',state);
     })
   }
 

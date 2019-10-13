@@ -1,13 +1,22 @@
 import {Injectable} from '@angular/core';
 import {Storage} from '@ionic/storage';
-import {BehaviorSubject, Subject, Subscription, ReplaySubject} from 'rxjs';
+
+import {DbService} from './db.service';
+import {Store} from '@ngrx/store';
+import {LoadTasks} from '../store/action/task.action';
+
+export interface AppState {
+  TaskState: {
+    tasks: Task[]
+  }
+}
 
 export interface Task {
   id: number,
   location: string,
   hint?: string,
   date?: any,
-  status : number
+  status: number
 }
 
 const TASK_KEY = 'my_task';
@@ -17,49 +26,24 @@ const TASK_KEY = 'my_task';
 })
 export class TasksService {
 
-  // public  arr$ : any
   public tasks: Task[] = [];
   public task: Task[];
-  public striamTask$ : ReplaySubject<Task> = new ReplaySubject<Task>()
-  sub : Subscription
-  counter = 0
 
-  constructor(private storage: Storage) {
-    // this.sub = this.striamTask$.subscribe((val)=>{
-    //   this.tasks.push(val)
-    //   console.log(this.tasks)
-    // })
-
-    // this.getTaskList()
-    // this.getItem().then((items) => {
-    //     this.tasks = items;
-    //   }
-    // );
+  constructor(private storage: Storage,
+              private dbService: DbService,
+              private store : Store<any>) {
   }
 
-  //test subject
-  // next(tasks){
-  //   tasks.map((value)=>{
-  //     this.striamTask$.next(value)
-  //     console.log(value, 'next')
-  //   })
-  // }
-
   //Create
-  addItem(item: Task): Promise<any> {
-    return this.storage.get(TASK_KEY).then((items: Task[]) => {
-      if (items) {
-        items.push(item);
-        return this.storage.set(TASK_KEY, items);
-      } else {
-        return this.storage.set(TASK_KEY, [item]);
-      }
-    })
+  addTask(task: Task): Promise<any> {
+    console.log('Код в addTask');
+    // this.test$.next(task)
+    return this.dbService.addElem(task, TASK_KEY);
   }
 
 // Read
-  getItem(): Promise<Task[]> {
-    return this.storage.get(TASK_KEY);
+  getTask(): Promise<Task[]> {
+    return this.dbService.getElem(TASK_KEY);
   }
 
   //Update
@@ -80,18 +64,13 @@ export class TasksService {
 
   //Delete
   deleteItem(id: number): Promise<Task> {
-    return this.storage.get(TASK_KEY).then((items: Task[]) => {
-      if (!items || items.length === 0) {
-        return null;
-      }
-      let toKeep: Task[] = [];
-      for (let i of items) {
-        if (i.id !== id) {
-          toKeep.push(i);
-        }
-      }
-      return this.storage.set(TASK_KEY, toKeep);
-    });
+    return this.dbService.deleteElem(id, TASK_KEY);
+  }
+
+  loadTask(){
+    this.getTask().then(payload => {
+      this.store.dispatch(new LoadTasks(payload))
+    })
   }
 
   getTaskKey() {
@@ -101,17 +80,17 @@ export class TasksService {
 ///////////////////////////////
 
 
-  getTaskById(id: number) {
-    this.task = this.tasks.filter((item) => {
-      return item.id === id;
-    });
-  }
+  // getTaskById(id: number) {
+  //   this.task = this.tasks.filter((item) => {
+  //     return item.id === id;
+  //   });
+  // }
 
-  getTaskList() {
-    this.getItem().then((items) => {
-        this.tasks = items;
-        console.log('get task list', this.tasks);
-      }
-    );
-  }
+  // getTaskList() {
+  //   this.getItem().then((items) => {
+  //       this.tasks = items;
+  //       console.log('get task list', this.tasks);
+  //     }
+  //   );
+  // }
 }

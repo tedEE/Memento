@@ -4,6 +4,7 @@ import {Router} from '@angular/router';
 
 import {TasksService, Task} from '../../service/tasks.service';
 import {NotificationService} from '../../service/notification.service';
+import {filter, last, scan, skip, take} from 'rxjs/operators';
 
 
 @Component({
@@ -17,19 +18,17 @@ export class ListComponent implements OnInit {
 
   @Input() tasks;
 
-  // public t : Task[];
+  tasksList : Task[] = []
+  public t ;
   private task : Task ;
   constructor(private router: Router,
               private nativePageTransitions: NativePageTransitions,
               private tasksService : TasksService,
               private notificationServise : NotificationService) {
-    console.log('list const')
-    // this.t = this.tasksService.tasks
+    // this.tasksService.gettingAllTasksFromDB()
   }
 
-  ngOnInit() {
-    console.log('ng home')
-  }
+  ngOnInit() {}
 
   delete(task : Task){
     this.notificationServise.clearNotification(task)
@@ -40,8 +39,6 @@ export class ListComponent implements OnInit {
   }
 
   showCard(id : number){
-    this.tasksService.getTaskList()
-    this.tasksService.getTaskById(id)
     let options: NativeTransitionOptions = {
       direction: 'right',
       duration: 300,
@@ -51,13 +48,14 @@ export class ListComponent implements OnInit {
   }
 
   loadTask(){
-    this.tasksService.getItem().then((tasks)=> {
+    this.tasksService.getTask().then((tasks)=> {
         this.tasks = tasks
       }
     )
   }
 
-  load(){
+  // load() {
+  //   this.tasksService.test$.next(1)
+  // }
 
-  }
 }

@@ -4,7 +4,8 @@ import {NativeTransitionOptions, NativePageTransitions} from '@ionic-native/nati
 import {Router} from '@angular/router';
 import {TasksService} from '../service/tasks.service';
 import {NotificationService} from '../service/notification.service';
-import {BehaviorSubject, Subscription} from 'rxjs';
+import {Store} from '@ngrx/store';
+
 
 @Component({
   selector: 'app-card',
@@ -13,33 +14,22 @@ import {BehaviorSubject, Subscription} from 'rxjs';
 })
 export class CardPage implements OnInit {
 
-  public task: Task;
+  // public task: Task;
+  public tasks : Task[];
   private notificationList
-  ////////////test subscribe
-  count : Task[]
-  private sub : BehaviorSubject<number>
+
+
   constructor(private nativePageTransitions: NativePageTransitions,
               private router: Router,
               private notificationService: NotificationService,
-              private taskServise : TasksService) {
-    this.count = []
-    /////////////////
-     this.taskServise.striamTask$.subscribe((val)=>{
-      console.log('val', val)
-       this.count.push(val)
-    })
-    /////////////////
-    if (this.taskServise.task[0] === undefined) {
-      this.taskServise.getTaskList();
-    }
-    this.task = this.taskServise.task[0];
-  }
+              private taskServise : TasksService,
+              private store : Store<Task[]>) {}
 
   ngOnInit(): void {
-    // if (this.cardServise.task[0] === undefined){
-    //   this.task = {id : 1, hint : 'def', location : 'def'}
-    // }else {this.task = this.cardServise.task[0]}
-    // console.log('from card', this.task)
+    this.store.select('taskReduser').subscribe(({tasks}) => {
+      console.log(tasks)
+      this.tasks = tasks
+    })
     this.notificationList = this.notificationService.notificationList
   }
 
@@ -50,6 +40,9 @@ export class CardPage implements OnInit {
     };
     this.nativePageTransitions.slide(options);
     this.router.navigateByUrl('/home');
+  }
+
+  next(){
   }
 
 }

@@ -5,7 +5,6 @@ import {TasksService, Task} from '../service/tasks.service';
 import {Storage} from '@ionic/storage';
 import {FCM} from '@ionic-native/fcm/ngx';
 import {HttpClient} from '@angular/common/http';
-import {trigger} from '@angular/animations';
 import {NotificationService} from '../service/notification.service';
 
 
@@ -25,9 +24,10 @@ export class HomePage implements OnInit {
               private storage: Storage,
               private fcm: FCM,
               private httpClient: HttpClient) {
-    this.tasksService.striamTask$.subscribe((val)=>{
-      console.log(val)
-    })
+    // this.tasksService.gettingAllTasksFromDB()
+    // this.tasksService.striamTask$.subscribe((val)=>{
+    //   console.log(val)
+    // })
     storage.get(this.taskKey).then((tasks) => {
       this.tasks = tasks;
       tasksService.tasks = this.tasks;
@@ -60,7 +60,7 @@ export class HomePage implements OnInit {
   }
 
   loadTask() {
-    this.tasksService.getItem().then((tasks) => {
+    this.tasksService.getTask().then((tasks) => {
         this.tasks = tasks;
         console.log('функция loadTask home page', 'load');
       }
@@ -71,17 +71,20 @@ export class HomePage implements OnInit {
   transition() {
     const options: NativeTransitionOptions = {
       direction: 'left',
-      duration: 300,
+      duration: 500,
+      androiddelay: 150,
     };
     this.nativePageTransitions.slide(options);
     this.router.navigateByUrl('/add-task');
   }
 
   ngOnInit() {
+    this.tasksService.loadTask()
     document.addEventListener('backbutton', () => {
       navigator['app'].exitApp();
     }, false);
-    this.notificationService.trigerEvent()
+    // очень нужно потом включить
+    // this.notificationService.trigerEvent()
     ////////////////////получение токена устройства
     this.fcm.getToken().then(token => {
       console.log('token', token);

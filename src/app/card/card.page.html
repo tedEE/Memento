@@ -9,15 +9,16 @@
 
 <ion-content>
 <!--    <ion-card *ngFor="let notification of notificationList">-->
-    <ion-card *ngFor="let c of count">
+    <ion-card *ngFor="let t of tasks">
         <ion-card-header>
 <!--            <ion-card-title>{{task?.location}}</ion-card-title>-->
 <!--            <ion-card-title>{{notification.title}}</ion-card-title>-->
         </ion-card-header>
 
         <ion-card-content >
-            {{c.location + 'aaaa'}}
+            {{t.location}}
 <!--            {{task?.hint}}-->
         </ion-card-content>
     </ion-card>
+    <ion-button color="tertiary" (click)="next()">Add</ion-button>
 </ion-content>

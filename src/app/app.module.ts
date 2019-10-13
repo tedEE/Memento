@@ -17,7 +17,9 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 import {FCM} from '@ionic-native/fcm/ngx';
 import {HTTP} from '@ionic-native/http/ngx';
-import {FormsModule} from '@angular/forms';
+import {StoreModule} from '@ngrx/store';
+import {taskReduser} from './store/reducer/task.reducer';
+
 
 
 @NgModule({
@@ -29,7 +31,8 @@ import {FormsModule} from '@angular/forms';
       HttpClientModule,
       IonicStorageModule.forRoot(),
       BrowserAnimationsModule,
-      FormsModule],
+      StoreModule.forRoot({taskReduser : taskReduser})
+    ],
     providers: [
         StatusBar,
         SplashScreen,
