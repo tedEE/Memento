@@ -19,11 +19,11 @@ import {FCM} from '@ionic-native/fcm/ngx';
 import {HTTP} from '@ionic-native/http/ngx';
 import {StoreModule} from '@ngrx/store';
 import {taskReduser} from './store/reducer/task.reducer';
-
+import {notificationReduser} from './store/reducer/notification.reducer';
 
 
 @NgModule({
-    declarations: [AppComponent, AddTaskComponent],
+    declarations: [AppComponent, AddTaskComponent, ],
     entryComponents: [],
     imports: [BrowserModule,
       IonicModule.forRoot(),
@@ -31,7 +31,9 @@ import {taskReduser} from './store/reducer/task.reducer';
       HttpClientModule,
       IonicStorageModule.forRoot(),
       BrowserAnimationsModule,
-      StoreModule.forRoot({taskReduser : taskReduser})
+      StoreModule.forRoot(
+        {taskReduser : taskReduser,
+          notificationReduser : notificationReduser})
     ],
     providers: [
         StatusBar,

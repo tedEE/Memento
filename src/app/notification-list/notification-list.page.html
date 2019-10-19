@@ -1,0 +1,18 @@
+<ion-header>
+    <ion-toolbar color="primary">
+        <div class="header">
+            <ion-title>notification list</ion-title>
+            <ion-icon name="home" routerLink="/"></ion-icon>
+        </div>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-list *ngFor="let t of notifications">
+        <ion-item (click)="delNotif(t)">
+            <ion-label>{{t.title}}</ion-label>
+            <p>{{t.text}}</p>
+        </ion-item>
+
+    </ion-list>
+</ion-content>

@@ -3,11 +3,14 @@ import {Storage} from '@ionic/storage';
 
 import {DbService} from './db.service';
 import {Store} from '@ngrx/store';
-import {LoadTasks} from '../store/action/task.action';
+import {AddTask, LoadTasks} from '../store/action/task.action';
+import {Notification} from './notification.service';
+import {Db} from './Db';
 
 export interface AppState {
   TaskState: {
-    tasks: Task[]
+    tasks: Task[],
+    notifications : Notification[]
   }
 }
 
@@ -24,26 +27,34 @@ const TASK_KEY = 'my_task';
 @Injectable({
   providedIn: 'root'
 })
-export class TasksService {
+export class TasksService extends Db{
 
   public tasks: Task[] = [];
   public task: Task[];
 
-  constructor(private storage: Storage,
-              private dbService: DbService,
+  constructor(protected storage: Storage,
               private store : Store<any>) {
+    super(storage)
   }
 
   //Create
+  // addTask(task: Task): Promise<any> {
+  //   this.store.dispatch(new AddTask(task))
+  //   return this.dbService.addElem(task, TASK_KEY);
+  // }
+
   addTask(task: Task): Promise<any> {
-    console.log('Код в addTask');
-    // this.test$.next(task)
-    return this.dbService.addElem(task, TASK_KEY);
+    this.store.dispatch(new AddTask(task))
+    return super.addElem(task, TASK_KEY)
   }
 
 // Read
+//   getTask(): Promise<Task[]> {
+//     return this.dbService.getElem(TASK_KEY);
+//   }
+
   getTask(): Promise<Task[]> {
-    return this.dbService.getElem(TASK_KEY);
+    return super.getElem(TASK_KEY);
   }
 
   //Update
@@ -63,10 +74,15 @@ export class TasksService {
   }
 
   //Delete
+  // deleteItem(id: number): Promise<Task> {
+  //   return this.dbService.deleteElem(id, TASK_KEY);
+  // }
+
   deleteItem(id: number): Promise<Task> {
-    return this.dbService.deleteElem(id, TASK_KEY);
+    return super.deleteElem(id, TASK_KEY);
   }
 
+  // получение списка задач из базы
   loadTask(){
     this.getTask().then(payload => {
       this.store.dispatch(new LoadTasks(payload))

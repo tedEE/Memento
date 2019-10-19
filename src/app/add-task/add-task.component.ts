@@ -33,7 +33,7 @@ export class AddTaskComponent implements OnInit {
 
   ngOnInit() {
     document.addEventListener('backbutton', () => {
-      this.transitionHome();
+
     }, true);
   }
 
@@ -67,7 +67,7 @@ export class AddTaskComponent implements OnInit {
         date: date,
         status : 1
       };
-      this.store.dispatch(new AddTask(this.task))
+      // this.store.dispatch(new AddTask(this.task))
 
       this.tasksService.addTask(this.task).then((tasks) => {
         console.log('add task', tasks);

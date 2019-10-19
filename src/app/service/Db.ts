@@ -1,17 +1,12 @@
-import { Injectable } from '@angular/core';
 import {Storage} from '@ionic/storage';
 
-// const TASK_KEY = ''
-
-@Injectable({
-  providedIn: 'root'
-})
-export class DbService {
+export abstract class Db {
 
   constructor(protected storage : Storage) {}
 
   //Create
   addElem(item: any, dbKey : string): Promise<any> {
+    console.log('код в addElem()')
     return this.storage.get(dbKey).then((items: any[]) => {
       if (items) {
         items.push(item);

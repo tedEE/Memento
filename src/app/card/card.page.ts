@@ -3,7 +3,7 @@ import {Task} from '../service/tasks.service';
 import {NativeTransitionOptions, NativePageTransitions} from '@ionic-native/native-page-transitions/ngx';
 import {Router} from '@angular/router';
 import {TasksService} from '../service/tasks.service';
-import {NotificationService} from '../service/notification.service';
+import {Notification, NotificationService} from '../service/notification.service';
 import {Store} from '@ngrx/store';
 
 
@@ -15,7 +15,7 @@ import {Store} from '@ngrx/store';
 export class CardPage implements OnInit {
 
   // public task: Task;
-  public tasks : Task[];
+  public tasks : Notification[];
   private notificationList
 
 
@@ -26,11 +26,10 @@ export class CardPage implements OnInit {
               private store : Store<Task[]>) {}
 
   ngOnInit(): void {
-    this.store.select('taskReduser').subscribe(({tasks}) => {
-      console.log(tasks)
-      this.tasks = tasks
+    this.store.select('notificationReduser').subscribe(({notifications}) => {
+      console.log(notifications)
+      this.tasks = notifications
     })
-    this.notificationList = this.notificationService.notificationList
   }
 
   transitionHome() {

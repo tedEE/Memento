@@ -71,8 +71,7 @@ export class HomePage implements OnInit {
     document.addEventListener('backbutton', () => {
       navigator['app'].exitApp();
     }, false);
-    // очень нужно потом включить
-    // this.notificationService.trigerEvent()
+    this.notificationService.trigerEvent()
     ////////////////////получение токена устройства
     this.fcm.getToken().then(token => {
       console.log('token', token);
