@@ -1,1 +1,27 @@
+@mixin line {
+  height: 1px;
+  background-color: #d7d8da;
+}
+
+
+.location{
+  padding-left: 16px;
+  h3{
+	text-transform: capitalize;
+  }
+}
+
+.line-top{
+  	width: 70vw;
+	@include line
+}
+p {
+  margin-top: 32px;
+  padding-left: 16px;
+}
+
+.line{
+  width: 52vw;
+  @include line
+}
 

@@ -1,0 +1,29 @@
+.icon-block{
+  width: 35px;
+  border-radius: 5px;
+}
+.del{
+  background: red;
+  margin-right: 15px;
+}
+
+.ditails{
+  display: flex;
+  transition: width .7s
+}
+
+.create{
+  background: greenyellow;
+}
+
+.visible{
+  width: 30%;
+}
+
+.invisible{
+  width: 0;
+}
+
+ion-label{
+  transition: width 2s
+}

@@ -4,17 +4,17 @@ import {Storage} from '@ionic/storage';
 import {DbService} from './db.service';
 import {Store} from '@ngrx/store';
 import {AddTask, LoadTasks} from '../store/action/task.action';
-import {Notification} from './notification.service';
+import {INotification} from './notification.service';
 import {Db} from './Db';
 
 export interface AppState {
   TaskState: {
-    tasks: Task[],
-    notifications : Notification[]
+    tasks: ITask[],
+    notifications : INotification[]
   }
 }
 
-export interface Task {
+export interface ITask {
   id: number,
   location: string,
   hint?: string,
@@ -29,8 +29,10 @@ const TASK_KEY = 'my_task';
 })
 export class TasksService extends Db{
 
-  public tasks: Task[] = [];
-  public task: Task[];
+  public tasks: ITask[] = [];
+  public task: ITask[];
+  public taskForId : ITask
+  public updateTask : ITask[]
 
   constructor(protected storage: Storage,
               private store : Store<any>) {
@@ -43,7 +45,7 @@ export class TasksService extends Db{
   //   return this.dbService.addElem(task, TASK_KEY);
   // }
 
-  addTask(task: Task): Promise<any> {
+  addTask(task: ITask): Promise<ITask[]> {
     this.store.dispatch(new AddTask(task))
     return super.addElem(task, TASK_KEY)
   }
@@ -53,17 +55,17 @@ export class TasksService extends Db{
 //     return this.dbService.getElem(TASK_KEY);
 //   }
 
-  getTask(): Promise<Task[]> {
+  getTask(): Promise<ITask[]> {
     return super.getElem(TASK_KEY);
   }
 
   //Update
-  updateItem(item: Task): Promise<any> {
-    return this.storage.get(TASK_KEY).then((items: Task[]) => {
+  updateItem(item: ITask): Promise<any> {
+    return this.storage.get(TASK_KEY).then((items: ITask[]) => {
       if (!items || items.length === 0) {
         return null;
       }
-      let neIitems: Task[] = [];
+      let neIitems: ITask[] = [];
       for (let i of items) {
         if (i.id === item.id) {
           neIitems.push(i);
@@ -78,7 +80,7 @@ export class TasksService extends Db{
   //   return this.dbService.deleteElem(id, TASK_KEY);
   // }
 
-  deleteItem(id: number): Promise<Task> {
+  deleteItem(id: number): Promise<ITask> {
     return super.deleteElem(id, TASK_KEY);
   }
 
@@ -96,11 +98,12 @@ export class TasksService extends Db{
 ///////////////////////////////
 
 
-  // getTaskById(id: number) {
-  //   this.task = this.tasks.filter((item) => {
-  //     return item.id === id;
-  //   });
-  // }
+  getTaskById(id: number, taskList : Array<ITask>) {
+    let t = taskList.filter((item) => {
+       return item.id === id;
+    });
+    this.taskForId = t[0]
+  }
 
   // getTaskList() {
   //   this.getItem().then((items) => {

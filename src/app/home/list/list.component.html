@@ -1,8 +1,21 @@
 <ion-list *ngFor="let task of tasksList, let i = index ">
     <ion-item >
-        <ion-label (click)="showCard(task.id)">{{task.location}} | {{task.date | date:"MMM-d:hh:mm"}}</ion-label>
+        <ion-label (swipeleft)="showDetailis(task.id)" (swiperight)="closeDetails()">{{task.location}} | {{task.date | date:"MMM-d:hh:mm"}}</ion-label>
+        <div class="ditails" [ngClass]="{
+            visible : chosenItem != 0 && task.id === chosenItem,
+            invisible : task.id !== chosenItem
+        }">
+            <div class="del icon-block" (click)="delete(task)"><ion-icon name="trash"></ion-icon></div>
+            <div class="create icon-block" (click)="update(task)" routerLink="/update"><ion-icon name="create"></ion-icon></div>
+        </div>
 
-        <ion-button color="warning" (click)="delete(task)" >Delete</ion-button>
+<!--        <ion-button color="warning" (click)="delete(task)" >удалить</ion-button>-->
     </ion-item>
 </ion-list>
+
+<!--Ну так на триггер нужно привязать условие сравнения выбранного элемента с текущим элементом цикла. https://angular.io/guide/transition-and-triggers-->
+<!--<div *ngFor="let item of myArray">-->
+<!--    <div [@openClose]="item.id === chosenItem.id" class="open-close-container">-->
+<!--    </div>-->
+<!--</div>-->
 

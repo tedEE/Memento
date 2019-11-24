@@ -7,7 +7,8 @@ const routes: Routes = [
     { path: 'add-task', component : AddTaskComponent },
     { path: 'home', loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)},
   { path: 'card', loadChildren: './card/card.module#CardPageModule' },
-  { path: 'notification-list', loadChildren: './notification-list/notification-list.module#NotificationListPageModule' },
+  { path: 'update', loadChildren: './update/update.module#UpdatePageModule' },
+  // { path: 'notification-list', loadChildren: './notification-list/notification-list.module#NotificationListPageModule' },
   // { path: 'add', loadChildren: './add/add.module#AddPageModule' },
 ];
 

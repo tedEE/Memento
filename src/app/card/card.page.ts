@@ -1,10 +1,11 @@
 import {Component, OnInit} from '@angular/core';
-import {Task} from '../service/tasks.service';
+import {ITask} from '../service/tasks.service';
 import {NativeTransitionOptions, NativePageTransitions} from '@ionic-native/native-page-transitions/ngx';
-import {Router} from '@angular/router';
+import {Router,ActivatedRoute} from '@angular/router';
 import {TasksService} from '../service/tasks.service';
-import {Notification, NotificationService} from '../service/notification.service';
+import {INotification, NotificationService} from '../service/notification.service';
 import {Store} from '@ngrx/store';
+import {Platform} from '@ionic/angular';
 
 
 @Component({
@@ -15,21 +16,25 @@ import {Store} from '@ngrx/store';
 export class CardPage implements OnInit {
 
   // public task: Task;
-  public tasks : Notification[];
-  private notificationList
+  public tasks : INotification[];
+  private taskForId : ITask
 
 
   constructor(private nativePageTransitions: NativePageTransitions,
               private router: Router,
-              private notificationService: NotificationService,
+              private routerActivated : ActivatedRoute,
               private taskServise : TasksService,
-              private store : Store<Task[]>) {}
+              private plt : Platform,
+              private store : Store<ITask[]>) {}
 
   ngOnInit(): void {
-    this.store.select('notificationReduser').subscribe(({notifications}) => {
-      console.log(notifications)
-      this.tasks = notifications
-    })
+    // this.store.select('taskReduser').subscribe(({notifications}) => {
+    //   console.log(notifications)
+    //   this.tasks = notifications
+    // })
+    this.backButtonEvent()
+    this.taskForId = this.taskServise.taskForId
+    console.log(this.taskForId)
   }
 
   transitionHome() {
@@ -41,7 +46,27 @@ export class CardPage implements OnInit {
     this.router.navigateByUrl('/home');
   }
 
-  next(){
+  backButtonEvent() {
+    // this.plt.backButton.subscribe(async () => {
+    //   console.log(this.routerActivated)
+    //   // this.routerOutlets.forEach((outlet: IonRouterOutlet) => {
+    //   //   if (this.router.url == '/login') {
+    //   //     if (new Date().getTime() - this.lastTimeBackPress < this.timePeriodToExit) {
+    //   //       navigator['app'].exitApp()
+    //   //     } else {
+    //   //       let toast = this.toastCtrl.create({
+    //   //         message: "Click to exit the application!",
+    //   //         duration: 2000,
+    //   //         position: 'bottom'
+    //   //       })
+    //   //       toast.then(toast => toast.present())
+    //   //       this.lastTimeBackPress = new Date().getTime()
+    //   //     }
+    //   //   } else  {
+    //   //     outlet.pop()
+    //   //     window.history.back()
+    //   //   }
+    //   // })
+    // })
   }
-
 }

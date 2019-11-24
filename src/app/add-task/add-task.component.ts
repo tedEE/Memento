@@ -2,12 +2,12 @@ import {Component,  OnInit, } from '@angular/core';
 import {NativePageTransitions, NativeTransitionOptions} from '@ionic-native/native-page-transitions/ngx';
 import {Router} from '@angular/router';
 import {HTTP} from '@ionic-native/http/ngx';
-import {Subject} from 'rxjs';
 
-import {TasksService, Task} from '../service/tasks.service';
+import {TasksService, ITask} from '../service/tasks.service';
 import {NotificationService} from '../service/notification.service';
 import {Store} from '@ngrx/store';
 import {AddTask} from '../store/action/task.action';
+import {NotiificationFactory} from '../service/NotiificationFactory';
 
 /////////////////////
 
@@ -19,10 +19,11 @@ import {AddTask} from '../store/action/task.action';
 })
 export class AddTaskComponent implements OnInit {
 
-  public tasks: Task[];
-  private task: Task;
+  public tasks: ITask[];
+  private task: ITask;
   private id: number;
-
+  /////////////
+  // private testVal = new NotiificationFactory(this.task)
 
   constructor(private router: Router,
               private nativePageTransitions: NativePageTransitions,
@@ -51,7 +52,7 @@ export class AddTaskComponent implements OnInit {
     this.router.navigateByUrl('/home');
   }
 
-  addTimeNatification(task : Task) {
+  addTimeNatification(task : ITask) {
     this.notificationServise.createNotification(task)
   }
 
@@ -90,6 +91,7 @@ export class AddTaskComponent implements OnInit {
   }
 
   addTask(lok, hint) {
+    // console.log(this.testVal, 'task')
     // this.inputLok.nativeElement.focus()
     this.createTask(lok, hint);
     this.addTimeNatification(this.task);
